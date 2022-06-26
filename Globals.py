@@ -4,7 +4,7 @@ import pygame_gui
 
 pygame.init()
 
-clientversion = "0.00"
+clientversion = "0.01"
 
 class Options():
     def Load(self):
