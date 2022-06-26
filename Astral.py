@@ -5,6 +5,7 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 # Imports
 import pygame
 import pygame_gui
+import requests
 import MainMenu
 import OptionsMenu
 import SongSelect
@@ -37,9 +38,6 @@ if __name__ == "__main__":
     
     # Check for updates
     # https://raw.githubusercontent.com/RenderingByte/Astral/installer/ver.txt
-    
-    import base64
-    import requests
 
     req = requests.get("https://raw.githubusercontent.com/RenderingByte/Astral/installer/ver.txt")
     cloudver = float(req.text)
