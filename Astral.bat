@@ -1,0 +1,3 @@
+Launching Astral...
+@echo off
+python astral.py
