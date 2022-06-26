@@ -32,7 +32,7 @@ Astral is in its early-development stage at the moment, so bugs and missing/brok
 
 ## Getting Started
 
-Astral can be downloaded by clicking <a href="[https://github.com/RenderingByte/Astral/tree/dist](https://raw.githubusercontent.com/RenderingByte/Astral/installer/InstallAstral.bat)">here</a>.
+Astral can be downloaded by clicking <a href="https://raw.githubusercontent.com/RenderingByte/Astral/installer/InstallAstral.bat">here</a>.
 - Make sure you save the file as .bat NOT .txt and then run it!
 
 ### Prerequisites
