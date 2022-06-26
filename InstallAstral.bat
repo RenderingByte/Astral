@@ -10,6 +10,9 @@ IF EXIST "Astral.py" (
 	powershell -Command "Expand-Archive -Force Astral.zip"
 
 	move "%~dp0Astral\Astral-dist\*.*" "%~dp0"
+	move "%~dp0Astral\Astral-dist\fonts" "%~dp0"
+	move "%~dp0Astral\Astral-dist\images" "%~dp0"
+	move "%~dp0Astral\Astral-dist\skins" "%~dp0"
 	@RD /S /Q "%~dp0Astral\"
 	del Astral.zip
 
@@ -60,9 +63,6 @@ echo [Installing Python Dependencies]
 echo Installing Pygame...
 pip install pygame
 echo:
-echo Installing Pygame...
-pip install pygame
-echo:
 echo Installing PygameGui...
 pip install pygame-gui
 
@@ -87,8 +87,13 @@ echo Unzipping Archive...
 powershell -Command "Expand-Archive -Force Astral.zip"
 
 move "%~dp0Astral\Astral-dist\*.*" "%~dp0"
+move "%~dp0Astral\Astral-dist\fonts" "%~dp0"
+move "%~dp0Astral\Astral-dist\images" "%~dp0"
+move "%~dp0Astral\Astral-dist\skins" "%~dp0"
 @RD /S /Q "%~dp0Astral\"
 del Astral.zip
+del Install-Python.exe
+del Install-Node.msi
 
 echo:
 
@@ -97,5 +102,4 @@ cls
 
 start Astral.bat
 
-exit
-
+pause
