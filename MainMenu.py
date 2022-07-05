@@ -4,6 +4,7 @@
 
 # Imports
 import Globals
+import Engine
 import pygame
 import random
 import os
@@ -30,9 +31,10 @@ def Display(window, clock, font):
         img.fadeIn(1000)
         
         # Play a random song from map directory.
-        Globals.mainmenu.songtitle = random.choice(os.listdir("./maps/"))
-        Globals.sounds.menumusicsound = pygame.mixer.Sound("./maps/" + Globals.mainmenu.songtitle + "/audio.mp3")
-        pygame.mixer.music.load("./maps/" + Globals.mainmenu.songtitle + "/audio.mp3")
+        data = Engine.load("./maps/" + random.choice(os.listdir("./maps/")) + "/beatmap.json", False)
+        Globals.mainmenu.selectedsong = data
+        Globals.sounds.menumusicsound = pygame.mixer.Sound("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
+        pygame.mixer.music.load("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
         pygame.mixer.music.set_volume(Globals.options.options["musicvolume"])
         pygame.mixer.music.play()
     
@@ -52,7 +54,7 @@ def Display(window, clock, font):
         hour, min, sec = str(hour), str(min), str(sec)
         timeleft = min.zfill(2)+":"+sec.zfill(2)
         if int(hour) > 0: hour.zfill(2)+":"+min.zfill(2)+":"+sec.zfill(2)
-        songtitle = font.render(str(Globals.mainmenu.songtitle.split("-")[0] + " (" + timeleft + ")"), True, pygame.Color("white"))
+        songtitle = font.render(str(Globals.mainmenu.selectedsong["title"].split("-")[0] + " (" + timeleft + ")"), True, pygame.Color("white"))
         window.blit(songtitle, (Globals.options.options["screen_width"]*0.01, Globals.options.options["screen_height"]/1.08))
 
         # Display song progress background

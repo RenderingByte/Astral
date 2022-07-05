@@ -158,8 +158,8 @@ mapinfo = MapInfo(None, None, {}, 0, 0)
 
 # Main menu items that cannot be a part of other classes
 class MainMenu():
-    def __init__(self, songtitle):
-        songtitle = songtitle
+    def __init__(self, selectedsong):
+        selectedsong = selectedsong
 
 mainmenu = MainMenu(None)
 

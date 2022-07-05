@@ -88,7 +88,39 @@ def Display(window, clock, font):
                 
                 Globals.ui.songselectlist.set_item_list(Globals.loadedmaps.maparray)
                 Globals.loadedmaps.searchquery = ""
-        
+    
+    # Draw "Map Details" object
+    mapdetails = font.render("Map Details", True, pygame.Color("white"))
+    window.blit(mapdetails, (15, 60))
+    
+    # Draw Map Name object
+    mapname = font.render("Name: " + str(Globals.mainmenu.selectedsong["title"]), True, pygame.Color("white"))
+    window.blit(mapname, (15, 120))
+    
+    # Draw Map Difficulty Name object
+    diffname = font.render("Difficulty Name: " + str(Globals.mainmenu.selectedsong["diffname"]), True, pygame.Color("white"))
+    window.blit(diffname, (15, 150))
+    
+    # Draw Artist Name object
+    artistname = font.render("Artist: " + str(Globals.mainmenu.selectedsong["artist"]), True, pygame.Color("white"))
+    window.blit(artistname, (15, 180))
+    
+    # Draw Difficulty object
+    difficulty = font.render(("Difficulty: N/A"), True, pygame.Color("white"))
+    window.blit(difficulty, (15, 210))
+    
+    # Draw Creator object
+    creator = font.render(("Creator: " + Globals.mainmenu.selectedsong["creator"]), True, pygame.Color("white"))
+    window.blit(creator, (15, 240))
+    
+    # Draw Keycount object
+    keycount = font.render(("Keycount: " + str(Globals.mainmenu.selectedsong["keyCount"])), True, pygame.Color("white"))
+    window.blit(keycount, (15, 270))
+    
+    # Total Objects object
+    totalobjects = font.render(("Total Objects: " + str(int(Globals.mainmenu.selectedsong["nbNotes"]) + int(Globals.mainmenu.selectedsong["nbHolds"]))), True, pygame.Color("white"))
+    window.blit(totalobjects, (15, 300))
+    
     dtforui = clock.tick(Globals.options.options["fps"])/1000.0
     Globals.ui.manager.update(dtforui)
     Globals.ui.manager.draw_ui(window)

@@ -42,6 +42,7 @@ if __name__ == "__main__":
     print("This program is still in development. Please expect and report any bugs to Byte#4174, or on the GitHub page.")
     print("Maps with SV Changes will have incorrect timing. SV's aren't even implemented anyways, so there should be no reason for you to be playing these maps.")
     print("Some regular maps may be out of sync as well, but this should be rare.")
+    
     Globals.CheckForUpdates()
 
     # Window Loop
@@ -63,6 +64,7 @@ if __name__ == "__main__":
                 if event.ui_element == Globals.ui.songselectlist:
                     
                     data = Engine.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/beatmap.json", False)
+                    Globals.mainmenu.selectedsong = data
                     pygame.mixer.music.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/audio.mp3")
                     pygame.mixer.music.play(start=(data["previewTime"]/1000))
                 
