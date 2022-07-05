@@ -89,6 +89,11 @@ def Display(window, clock, font):
                 Globals.ui.songselectlist.set_item_list(Globals.loadedmaps.maparray)
                 Globals.loadedmaps.searchquery = ""
     
+    # Draw background image
+    songselectimg = pygame.image.load("./images/songselect.png").convert_alpha()
+    songselectimg = pygame.transform.scale(songselectimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+    window.blit(songselectimg, (0, 0))
+    
     # Draw "Map Details" object
     mapdetails = font.render("Map Details", True, pygame.Color("white"))
     window.blit(mapdetails, (15, 60))
