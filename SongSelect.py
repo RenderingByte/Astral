@@ -55,7 +55,7 @@ def Display(window, clock, font):
         Globals.ui.searchbox = pygame_gui.elements.UITextEntryLine(pygame.Rect((0, 0), (Globals.options.options["screen_width"], Globals.options.options["fontsize"])), manager=Globals.ui.manager)
         Globals.ui.searchbox.rebuild()
         
-        Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/5), Globals.options.options["fontsize"]), (Globals.options.options["screen_width"]/5, Globals.options.options["screen_height"] - Globals.options.options["fontsize"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
+        Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/5), Globals.options.options["fontsize"]-4), (Globals.options.options["screen_width"]/5, Globals.options.options["screen_height"] - Globals.options.options["fontsize"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
         Globals.ui.songselectlist.background_colour = pygame.Color(40,10,25)
         Globals.ui.songselectlist.border_colour = pygame.Color(255,255,255)
         Globals.ui.songselectlist.list_item_height = 75
@@ -94,37 +94,21 @@ def Display(window, clock, font):
     songselectimg = pygame.transform.scale(songselectimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
     window.blit(songselectimg, (0, 0))
     
-    # Draw "Map Details" object
-    mapdetails = font.render("Map Details", True, pygame.Color("white"))
-    window.blit(mapdetails, (15, 60))
-    
     # Draw Map Name object
-    mapname = font.render("Name: " + str(Globals.mainmenu.selectedsong["title"]), True, pygame.Color("white"))
-    window.blit(mapname, (15, 120))
-    
-    # Draw Map Difficulty Name object
-    diffname = font.render("Difficulty Name: " + str(Globals.mainmenu.selectedsong["diffname"]), True, pygame.Color("white"))
-    window.blit(diffname, (15, 150))
-    
-    # Draw Artist Name object
-    artistname = font.render("Artist: " + str(Globals.mainmenu.selectedsong["artist"]), True, pygame.Color("white"))
-    window.blit(artistname, (15, 180))
+    mapname = font.render(str(Globals.mainmenu.selectedsong["title"]) + " - " + str(Globals.mainmenu.selectedsong["diffname"]) + " | " + str(Globals.mainmenu.selectedsong["artist"] + " / " + str(Globals.mainmenu.selectedsong["creator"])), True, pygame.Color("white"))
+    window.blit(mapname, (15, 50))
     
     # Draw Difficulty object
     difficulty = font.render(("Difficulty: N/A"), True, pygame.Color("white"))
-    window.blit(difficulty, (15, 210))
-    
-    # Draw Creator object
-    creator = font.render(("Creator: " + Globals.mainmenu.selectedsong["creator"]), True, pygame.Color("white"))
-    window.blit(creator, (15, 240))
+    window.blit(difficulty, (15, 80))
     
     # Draw Keycount object
     keycount = font.render(("Keycount: " + str(Globals.mainmenu.selectedsong["keyCount"])), True, pygame.Color("white"))
-    window.blit(keycount, (15, 270))
+    window.blit(keycount, (15, 110))
     
     # Total Objects object
     totalobjects = font.render(("Total Objects: " + str(int(Globals.mainmenu.selectedsong["nbNotes"]) + int(Globals.mainmenu.selectedsong["nbHolds"]))), True, pygame.Color("white"))
-    window.blit(totalobjects, (15, 300))
+    window.blit(totalobjects, (15, 140))
     
     dtforui = clock.tick(Globals.options.options["fps"])/1000.0
     Globals.ui.manager.update(dtforui)
