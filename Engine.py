@@ -1,3 +1,5 @@
+# im too lazy to document the engine right now lol!! (you can probably see why...)
+
 import Keymap
 import pygame
 import json
@@ -13,14 +15,14 @@ def load(map, drawreceptors):
     
     if drawreceptors:
         for i in range(0, int(data["keyCount"])):
-            Globals.receptors.append(Globals.Receptor((i * Globals.options.options["playfield"][data["keyCount"]-1][1] + Globals.options.options["playfield"][data["keyCount"]-1][2]),Globals.options.options["playfield"][data["keyCount"]-1][0],Keymap.getkey(Globals.options.options["keybinds"][data["keyCount"]-1][i]),i))
+            Globals.receptors.append(Globals.Receptor((i * Globals.options.options["playfield"][data["keyCount"]-1][1] + Globals.options.options["playfield"][data["keyCount"]-1][2]),Globals.options.options["playfield"][data["keyCount"]-1][0],Keymap.GetKey(Globals.options.options["keybinds"][data["keyCount"]-1][i]),i))
     
     return data
 
 LnReleaseQueue = []
 JudgementQueue = []
 
-def draw(window, map, keycount, currenttime, dt):
+def Draw(window, map, keycount, dt):
     
     # get from globals
     noteimgs = Globals.images.noteimgs
@@ -44,10 +46,10 @@ def draw(window, map, keycount, currenttime, dt):
     # Note Rendering
     for note in map:
 
-        if note["time"] <= currenttime + ((Globals.options.options["screen_height"] + 50) / (Globals.options.options["scrollspeed"]/10)) and note["endTime"] > currenttime - ((Globals.options.options["screen_height"] + 50) / (Globals.options.options["scrollspeed"]/10)): # within screen bounds (roughly)
+        if note["time"] <= Globals.mapinfo.currenttime + ((Globals.options.options["screen_height"] + 50) / (Globals.options.options["scrollspeed"]/10)) and note["endTime"] > Globals.mapinfo.currenttime - ((Globals.options.options["screen_height"] + 50) / (Globals.options.options["scrollspeed"]/10)): # within screen bounds (roughly)
             
-            y = (currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
-            yLN = (currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
+            y = (Globals.mapinfo.currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
+            yLN = (Globals.mapinfo.currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
             lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((Globals.options.options["playfield"][keycount-1][1]/1.5), (note["endTime"] - note["time"]) * (Globals.options.options["scrollspeed"]/10)))
             
             # too far down, past bottom of screen so delete and reset combo since it's a miss
@@ -114,8 +116,8 @@ def draw(window, map, keycount, currenttime, dt):
         if not Globals.receptors[note[0]["x"]].held:
             if note[0]["type"] == "hold" and note[0]["newCombo"]:
 
-                y = (currenttime - (note[0]["time"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
-                yLN = (currenttime - (note[0]["endTime"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
+                y = (Globals.mapinfo.currenttime - (note[0]["time"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
+                yLN = (Globals.mapinfo.currenttime - (note[0]["endTime"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
                 
                 JudgementQueue.append([note[0], "hit", y, yLN, False]) 
                 Globals.receptors[note[0]["x"]].holdingln = False
@@ -199,4 +201,4 @@ def draw(window, map, keycount, currenttime, dt):
         if Globals.stats.hp > 100: Globals.stats.hp = 100
         if note in JudgementQueue: del JudgementQueue[JudgementQueue.index(note)]
     
-    return map
+    Globals.mapinfo.playingmap = map

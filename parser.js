@@ -1,3 +1,5 @@
+// Credit: https://github.com/PerseverantDT/osu-mania-parser
+
 const { dir } = require('console');
 const fs = require('fs');
 var path = require('path');

@@ -1,7 +1,14 @@
+# Astral - A VSRG (Vertical Scrolling Rhythm Game) developed in Python3.
+# This program can be found on GitHub: https://github.com/RenderingByte/Astral
+# This file serves as a way to provide a conventional keymap for the program.
+
+# Imports
 import pygame.key
 
+# Initialization
 pygame.init()
 
+# Keymap Object (read-only)
 keymap = {
     "left" : pygame.K_LEFT,
     "right" : pygame.K_RIGHT,
@@ -84,9 +91,20 @@ keymap = {
     "f12" : pygame.K_F12,
 }
 
-def getkey(k):
-    if k in keymap:
-        return keymap[k]
+def GetKey(key):
+    """
+        Looks up a given character in the keymap and returns the corresponding object.
+        That object will be in a Pygame Key object format. (e.g. pygame.K_a)
+        
+        ';' will return pygame.K_SEMICOLON.
+        
+        Mainly used for setting keybinds.
+
+    """
+    
+    if key in keymap: return keymap[key]
+    
     else:
-        print("Sorry, but your key: '", k, "' is currently not an available keybind. Please choose something else!")
-        exit()
+        
+        print("Sorry, but your key: '", key, "' is currently not an available keybind. Please choose something else!")
+        pygame.quit(); exit()
