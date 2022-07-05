@@ -77,7 +77,7 @@ def Display(window, clock, font):
                         search_array.append(item)
                         
                         # performance
-                        if len(search_array) >= 100: break
+                        if len(search_array) >= 1000: break
                         
                 Globals.ui.songselectlist.set_item_list(search_array)
                 Globals.loadedmaps.searchquery = Globals.ui.searchbox.text
