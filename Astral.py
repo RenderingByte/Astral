@@ -26,7 +26,7 @@ pygame.event.set_allowed([QUIT, KEYDOWN, KEYUP])
 # Window Setup
 window = pygame.display.set_mode((Globals.options.options["screen_width"], Globals.options.options["screen_height"]), (FULLSCREEN | DOUBLEBUF if Globals.options.options["fullscreen"] else DOUBLEBUF), 24)
 pygame.display.set_caption("Astral")
-pygame.display.set_icon(pygame.image.load('./images/icon.png'))
+pygame.display.set_icon(pygame.image.load('./images/icon_transparent.png'))
 clock = pygame.time.Clock()
 font = pygame.font.Font("./fonts/" + Globals.options.options["fontname"], Globals.options.options["fontsize"])
 

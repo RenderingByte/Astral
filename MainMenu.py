@@ -37,15 +37,16 @@ def Display(window, clock, font):
             try:
                 
                 data = Engine.load("./maps/" + random.choice(os.listdir("./maps/")) + "/beatmap.json", False)
+                Globals.sounds.menumusicsound = pygame.mixer.Sound("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
+                pygame.mixer.music.load("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
+                pygame.mixer.music.set_volume(Globals.options.options["musicvolume"])
+                pygame.mixer.music.play()
                 found_valid_map = True
             
             except: pass
                 
         Globals.mainmenu.selectedsong = data
-        Globals.sounds.menumusicsound = pygame.mixer.Sound("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
-        pygame.mixer.music.load("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
-        pygame.mixer.music.set_volume(Globals.options.options["musicvolume"])
-        pygame.mixer.music.play()
+        
     
     img.fadeOut(5)
     completed_logo_animation = img.draw(window, (Globals.options.options["screen_width"]/2 - 490, Globals.options.options["screen_height"]/2 - 490))

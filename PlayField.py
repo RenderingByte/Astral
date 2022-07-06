@@ -98,11 +98,6 @@ def Play(window, font, clock):
     
     # Draw the playfield image
     window.blit(Globals.images.playfieldimg, (0, 0))
-
-    # Update the current time with delta.
-    # This also adds frame indepedency.
-    dt = clock.tick(Globals.options.options["fps"])
-    Globals.mapinfo.currenttime += dt
     
     # Update the current time with any new TimingPoints.
     tp_to_apply = {}
@@ -111,13 +106,17 @@ def Play(window, font, clock):
     
     for i in range(0, len(Globals.mapinfo.playingtps)):
         if Globals.mapinfo.currenttime >= Globals.mapinfo.playingtps[i]["time"]:
-            if Globals.mapinfo.playingtps[i]["uninherited"] and Globals.mapinfo.playingtps[i]["velocity"] == 1: # Ignore SV changes
                 
-                tp_to_apply = Globals.mapinfo.playingtps[i]
-                current_tp = Globals.mapinfo.playingtps[i-1]
-                if i == 0: first_tp = True
+            tp_to_apply = Globals.mapinfo.playingtps[i]
+            current_tp = Globals.mapinfo.playingtps[i-1]
+            if i == 0: first_tp = True
                 
-    if not first_tp and (tp_to_apply != {} and current_tp != {}): Globals.mapinfo.currenttime = Globals.mapinfo.currenttime - (60/current_tp["bpm"]) + (60/tp_to_apply["bpm"])
+    if not first_tp and (tp_to_apply != {} and current_tp != {}): Globals.mapinfo.currenttime = (Globals.mapinfo.currenttime - (60/current_tp["bpm"]) + (60/tp_to_apply["bpm"]))
+    
+    # Update the current time with delta.
+    # This also adds frame indepedency.
+    dt = clock.tick(Globals.options.options["fps"])
+    Globals.mapinfo.currenttime += dt
     
     # Player has died.
     if Globals.stats.hp <= 0:
