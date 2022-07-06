@@ -64,18 +64,27 @@ if __name__ == "__main__":
                 if event.ui_element == Globals.ui.songselectlist:
                     
                     data = Engine.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/beatmap.json", False)
-                    Globals.mainmenu.selectedsong = data
-                    pygame.mixer.music.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/audio.mp3")
-                    pygame.mixer.music.play(start=(data["previewTime"]/1000))
-                
+                    
+                    try:
+                        pygame.mixer.music.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/audio.mp3")
+                        pygame.mixer.music.play(start=(data["previewTime"]/1000))
+                    except:
+                        print("Song failed to load due to an error.")
+                        break
+                    
+                    Globals.mainmenu.selectedsong = data    
+                            
             if event.type == pygame_gui.UI_SELECTION_LIST_DOUBLE_CLICKED_SELECTION:
                 if event.ui_element == Globals.ui.songselectlist:
                     if Globals.mapinfo.map == None:
                         
                         pygame.mixer.music.stop()
-                        Globals.mapinfo.map = Globals.ui.songselectlist.get_single_selection()
-                        Globals.states.isselecting = False
-                        Globals.states.isplaying = True
+                        
+                        if not Globals.ui.songselectlist.get_single_selection() == None:
+                            
+                            Globals.mapinfo.map = Globals.ui.songselectlist.get_single_selection()
+                            Globals.states.isselecting = False
+                            Globals.states.isplaying = True
             
             # Handle Keypresses
             if event.type == pygame.KEYDOWN:
@@ -136,11 +145,18 @@ if __name__ == "__main__":
             SongSelect.Display(window, clock, font)
             
         elif Globals.states.isplaying:
-            if not Globals.mapinfo.map == None:
-                if not Globals.states.inmap:
+            if not Globals.states.inmap:
+                
+                audio, visual = PlayField.LoadMap(Globals.mapinfo.map)
+                
+                if audio == None or visual == None:
                     
-                    audio, visual = PlayField.LoadMap(Globals.mapinfo.map)
-                    
+                    Globals.states.isselecting = True
+                    Globals.states.isplaying = False
+                    Globals.mapinfo.map = None
+                
+                else:
+                
                     if not Globals.mapinfo.playingmap == None:
                         
                         pygame.mixer.music.play(start=(audio))
@@ -153,11 +169,6 @@ if __name__ == "__main__":
                         Globals.states.isplaying = False
                         Globals.states.isselecting = True
                         Globals.Reset(window, None)
-                        
-                if not Globals.mapinfo.playingmap == None: PlayField.Play(window, font, clock)
                 
-            else:
-                
-                print(Globals.mapinfo.map)
-                print("map selection error")
-                pygame.quit(); exit()
+            # Remove if, push up one indentation level??
+            if not Globals.mapinfo.playingmap == None: PlayField.Play(window, font, clock)

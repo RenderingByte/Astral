@@ -107,4 +107,5 @@ def GetKey(key):
     else:
         
         print("Sorry, but your key: '", key, "' is currently not an available keybind. Please choose something else!")
-        pygame.quit(); exit()
+        pygame.quit()
+        exit()

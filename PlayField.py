@@ -77,7 +77,10 @@ def LoadMap(path):
 
         return audio, visual
     
-    else: print("map failed to load!"); return 0, 0
+    else:
+        
+        print("map failed to load!")
+        return None, None
 
 def Play(window, font, clock):
     """

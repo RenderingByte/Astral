@@ -185,6 +185,13 @@ def Reset(window, map):
     
     receptors.clear()
     
+    images.noteimgs.clear()
+    images.receptorimgs.clear()
+    images.receptorDimgs.clear()
+    images.lnheadimgs.clear()
+    images.lnbodyimgs.clear()
+    images.lntailimgs.clear()
+    
     states = States(False, (True if map == None else False), False, False, False, (False if map == None else True))
     mapinfo = MapInfo(None, None, {}, 0, 0)
     stats = Stats(0,0,100,0,0,0,0,0,0,100)

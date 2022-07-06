@@ -55,11 +55,13 @@ def Display(window, clock, font):
         Globals.ui.searchbox = pygame_gui.elements.UITextEntryLine(pygame.Rect((0, 0), (Globals.options.options["screen_width"], Globals.options.options["fontsize"])), manager=Globals.ui.manager)
         Globals.ui.searchbox.rebuild()
         
-        Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/5), Globals.options.options["fontsize"]-4), (Globals.options.options["screen_width"]/5, Globals.options.options["screen_height"] - Globals.options.options["fontsize"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
+        Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/2.5), Globals.options.options["fontsize"]-4), (Globals.options.options["screen_width"]/2.5, Globals.options.options["screen_height"] - Globals.options.options["fontsize"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
         Globals.ui.songselectlist.background_colour = pygame.Color(40,10,25)
         Globals.ui.songselectlist.border_colour = pygame.Color(255,255,255)
         Globals.ui.songselectlist.list_item_height = 75
         Globals.ui.songselectlist.rebuild()
+        
+        # rebuild_from_changed_theme_data()
         
         Globals.loadedmaps.drewlist = True
         
