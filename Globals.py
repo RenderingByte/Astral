@@ -73,7 +73,7 @@ ui = UI()
 
 # Engine/PlayField Images
 class Images():
-    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg):
+    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg, marvimg, perfimg, greatimg, goodimg, badimg, missimg):
         self.noteimgs = noteimgs
         self.lnheadimgs = lnheadimgs
         self.lnbodyimgs = lnbodyimgs
@@ -84,8 +84,14 @@ class Images():
         self.mainmenuimg = mainmenuimg
         self.optionsmenuimg = optionsmenuimg
         self.songselectmenuimg = songselectmenuimg
+        self.marvimg = marvimg
+        self.perfimg = perfimg
+        self.greatimg = greatimg
+        self.goodimg = goodimg
+        self.badimg = badimg
+        self.missimg = missimg
 
-images = Images([], [], [], [], [], [], None, None, None, None)
+images = Images([], [], [], [], [], [], None, None, None, None, None, None, None, None, None, None)
 
 # Engine Receptors
 class Receptor():

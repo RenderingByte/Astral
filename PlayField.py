@@ -151,9 +151,16 @@ def Play(window, font, clock):
     window.blit(combo, comborect)
     
     # Draw Judgement Object
-    judgement = font.render(str(Globals.stats.latestjudge), True, pygame.Color(Globals.options.options["judgementcolour"]))
-    judgementrect = judgement.get_rect(center=(Globals.options.options["judgementpos"][0], Globals.options.options["judgementpos"][1]))
-    window.blit(judgement, judgementrect)
+    judgeimg = Globals.images.marvimg
+    if Globals.stats.latestjudge == "MARVELOUS": judgeimg = Globals.images.marvimg
+    elif Globals.stats.latestjudge == "PERFECT": judgeimg = Globals.images.perfimg
+    elif Globals.stats.latestjudge == "GREAT": judgeimg = Globals.images.greatimg
+    elif Globals.stats.latestjudge == "GOOD": judgeimg = Globals.images.goodimg
+    elif Globals.stats.latestjudge == "BAD": judgeimg = Globals.images.badimg
+    elif Globals.stats.latestjudge == "MISS": judgeimg = Globals.images.missimg
+
+    judgementrect = judgeimg.get_rect(center=(Globals.options.options["judgementpos"][0], Globals.options.options["judgementpos"][1]))
+    window.blit(judgeimg, judgementrect)
     
     # Draw Song Progress Bar Object
     timepercent = 100 * ((pygame.mixer.music.get_pos()/1000) + Globals.options.options["audiooffset"]) / Globals.sounds.musicsound.get_length()

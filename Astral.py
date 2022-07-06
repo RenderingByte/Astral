@@ -45,6 +45,18 @@ Globals.images.songselectmenuimg = pygame.image.load("./images/songselect.png").
 Globals.images.songselectmenuimg = pygame.transform.scale(Globals.images.songselectmenuimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
 Globals.images.playfieldimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/playfield.png").convert_alpha()
 Globals.images.playfieldimg = pygame.transform.scale(Globals.images.playfieldimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+Globals.images.marvimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/marvelous.png").convert_alpha()
+Globals.images.marvimg = pygame.transform.scale(Globals.images.marvimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
+Globals.images.perfimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/perfect.png").convert_alpha()
+Globals.images.perfimg = pygame.transform.scale(Globals.images.perfimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
+Globals.images.greatimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/great.png").convert_alpha()
+Globals.images.greatimg = pygame.transform.scale(Globals.images.greatimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
+Globals.images.goodimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/good.png").convert_alpha()
+Globals.images.goodimg = pygame.transform.scale(Globals.images.goodimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
+Globals.images.badimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/bad.png").convert_alpha()
+Globals.images.badimg = pygame.transform.scale(Globals.images.badimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
+Globals.images.missimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/miss.png").convert_alpha()
+Globals.images.missimg = pygame.transform.scale(Globals.images.missimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
 
 # Application Entry Point
 if __name__ == "__main__":

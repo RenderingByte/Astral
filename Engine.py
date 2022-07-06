@@ -110,7 +110,6 @@ def Draw(window, map, keycount, dt):
                 window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN))
                 window.blit(lnheadimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x, y))
                 Globals.receptors[note["x"]].holdingln = False
-        else: break
     
     # Release Handling
     for note in LnReleaseQueue:

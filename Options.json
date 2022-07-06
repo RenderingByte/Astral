@@ -28,7 +28,7 @@
     "combosize": [0, 0],
     "healthbarsize": [5, 20],
     "songprogresssize": [1920, 20],
-    "judgementsize": [0, 0],
+    "judgementsize": [100, 80],
     "scoresize": [0, 0],
     "accsize": [0, 0],
     "fpscolour": "pink",
@@ -38,7 +38,6 @@
     "healthbarmediumcolour": "yellow",
     "healthbarlowcolour": "red",
     "songprogresscolour": "white",
-    "judgementcolour": "white",
     "scorecolour": "cyan",
     "acccolour": "cyan"
 }
