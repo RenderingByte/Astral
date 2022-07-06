@@ -36,6 +36,16 @@ Globals.sounds.misssound = pygame.mixer.Sound("./skins/" + Globals.options.optio
 pygame.mixer.Sound.set_volume(Globals.sounds.hitsound, Globals.options.options["soundvolume"])
 pygame.mixer.Sound.set_volume(Globals.sounds.misssound, Globals.options.options["soundvolume"])
 
+# Images
+Globals.images.mainmenuimg = pygame.image.load("./images/mainmenu.png").convert_alpha()
+Globals.images.mainmenuimg = pygame.transform.scale(Globals.images.mainmenuimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+Globals.images.optionsmenuimg = pygame.image.load("./images/optionsmenu.png").convert_alpha()
+Globals.images.optionsmenuimg = pygame.transform.scale(Globals.images.optionsmenuimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+Globals.images.songselectmenuimg = pygame.image.load("./images/songselect.png").convert_alpha()
+Globals.images.songselectmenuimg = pygame.transform.scale(Globals.images.songselectmenuimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+Globals.images.playfieldimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/playfield.png").convert_alpha()
+Globals.images.playfieldimg = pygame.transform.scale(Globals.images.playfieldimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+
 # Application Entry Point
 if __name__ == "__main__":
     

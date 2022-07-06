@@ -54,9 +54,7 @@ def Display(window, clock, font):
     if completed_logo_animation:
         
         # Display background image
-        mainmenuimg = pygame.image.load("./images/mainmenu.png").convert_alpha()
-        mainmenuimg = pygame.transform.scale(mainmenuimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
-        window.blit(mainmenuimg, (0, 0))
+        window.blit(Globals.images.mainmenuimg, (0, 0))
     
         # Display the title of the song
         min, sec = divmod(int(Globals.sounds.menumusicsound.get_length()) - int(pygame.mixer.music.get_pos()/1000), 60)

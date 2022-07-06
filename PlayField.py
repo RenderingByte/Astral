@@ -63,10 +63,6 @@ def LoadMap(path):
             Globals.images.lntailimgs.append(lntailimg)
             Globals.images.receptorimgs.append(receptorimg)
             Globals.images.receptorDimgs.append(receptorDimg)
-        
-        playfieldimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/playfield.png").convert_alpha()
-        playfieldimg = pygame.transform.scale(playfieldimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
-        Globals.images.playfieldimg = playfieldimg
 
         # Update globally for every other script
         Globals.mapinfo.playingmap = map

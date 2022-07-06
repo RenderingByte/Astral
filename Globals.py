@@ -73,7 +73,7 @@ ui = UI()
 
 # Engine/PlayField Images
 class Images():
-    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg):
+    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg):
         self.noteimgs = noteimgs
         self.lnheadimgs = lnheadimgs
         self.lnbodyimgs = lnbodyimgs
@@ -81,8 +81,11 @@ class Images():
         self.receptorimgs = receptorimgs
         self.receptorDimgs = receptorDimgs
         self.playfieldimg = playfieldimg
+        self.mainmenuimg = mainmenuimg
+        self.optionsmenuimg = optionsmenuimg
+        self.songselectmenuimg = songselectmenuimg
 
-images = Images([], [], [], [], [], [], None)
+images = Images([], [], [], [], [], [], None, None, None, None)
 
 # Engine Receptors
 class Receptor():
@@ -192,7 +195,6 @@ def Reset(window, map):
     images.lnheadimgs.clear()
     images.lnbodyimgs.clear()
     images.lntailimgs.clear()
-    images.playfield = None
     
     states = States(False, (True if map == None else False), False, False, False, (False if map == None else True))
     mapinfo = MapInfo(None, None, {}, 0, 0)

@@ -6,6 +6,8 @@
 import Globals
 import pygame
 
+pygame.init()
+
 def Display(window, clock, font):
     """
         Update the window to display the Options Menu.
@@ -18,9 +20,7 @@ def Display(window, clock, font):
     
     window.fill((0,0,0))
     
-    optionsimg = pygame.image.load("./images/optionsmenu.png").convert_alpha()
-    optionsimg = pygame.transform.scale(optionsimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
-    window.blit(optionsimg, (0, 0))
+    window.blit(Globals.images.optionsmenuimg, (0, 0))
     
     
     

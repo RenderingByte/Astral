@@ -8,6 +8,8 @@ import pygame
 import pygame_gui
 import os
 
+pygame.init()
+
 def LoadMaps(amt):
     """
         Load maps into the Globals.loadedmaps.maparray array.
@@ -87,9 +89,7 @@ def Display(window, clock, font):
                 Globals.loadedmaps.searchquery = ""
     
     # Draw background image
-    songselectimg = pygame.image.load("./images/songselect.png").convert_alpha()
-    songselectimg = pygame.transform.scale(songselectimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
-    window.blit(songselectimg, (0, 0))
+    window.blit(Globals.images.songselectmenuimg, (0, 0))
     
     # Draw Info object
     difficulty = font.render(("Difficulty: N/A | Keycount: " + str(Globals.mainmenu.selectedsong["keyCount"]) + " | Total Objects: " + str(int(Globals.mainmenu.selectedsong["nbNotes"]) + int(Globals.mainmenu.selectedsong["nbHolds"]))), True, pygame.Color("white"))
