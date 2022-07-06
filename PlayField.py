@@ -63,6 +63,10 @@ def LoadMap(path):
             Globals.images.lntailimgs.append(lntailimg)
             Globals.images.receptorimgs.append(receptorimg)
             Globals.images.receptorDimgs.append(receptorDimg)
+        
+        playfieldimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/playfield.png").convert_alpha()
+        playfieldimg = pygame.transform.scale(playfieldimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+        Globals.images.playfieldimg = playfieldimg
 
         # Update globally for every other script
         Globals.mapinfo.playingmap = map
@@ -80,6 +84,7 @@ def LoadMap(path):
     else:
         
         print("map failed to load!")
+        Globals.Reset()
         return None, None
 
 def Play(window, font, clock):
@@ -91,6 +96,9 @@ def Play(window, font, clock):
         :param window: The clock object (declared in Astral.py)
         
     """
+    
+    # Draw the playfield image
+    window.blit(Globals.images.playfieldimg, (0, 0))
 
     # Update the current time with delta.
     # This also adds frame indepedency.

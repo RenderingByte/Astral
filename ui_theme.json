@@ -1,0 +1,105 @@
+{
+    "selection_list":
+    {
+        "colours":
+        {
+            "filled_bar":"#f4251b",
+            "unfilled_bar":"#CCCCCC"
+        },
+
+        "misc":
+        {
+            "border_width": "0",
+            "shadow_width": "0",
+            "list_item_height": "70"
+        }
+    },
+
+    "selection_list.@selection_list_item":
+    {
+        "colours":
+        {
+            "normal_bg": "#1c1c1c",
+            "dark_bg":"#212121",
+            "normal_border": "#212121",
+            "filled_bar":"#212121",
+            "unfilled_bar":"#212121",
+
+            "hovered_bg":"#35393e",
+
+            "selected_text":"#FFFFFF",
+            "selected_border": "#8080B0"
+        },
+
+        "misc":
+        {
+           "border_width": "1"
+        }
+    },
+
+    "vertical_scroll_bar":
+    {
+        "colours":
+        {
+            "normal_bg": "#25292e",
+            "hovered_bg": "#35393e",
+            "disabled_bg": "#25292e",
+            "selected_bg": "#FFFFFF",
+            "active_bg": "#193784",
+            "dark_bg": "#15191e",
+            "normal_text": "#c5cbd8",
+            "hovered_text": "#FFFFFF",
+            "selected_text": "#25292e",
+            "disabled_text": "#6d736f"
+        },
+
+        "misc":
+            {
+                "shape": "rectangle",
+                "border_width": "0",
+                "enable_arrow_buttons": "0"
+            }
+        },
+
+    "vertical_scroll_bar.button":
+    {
+        "misc":
+        {
+            "border_width": "0"
+        }
+    },
+    
+    "vertical_scroll_bar.#sliding_button":
+    {
+        "colours":
+        {
+            "normal_bg": "#FFFFFF"
+        },
+
+        "misc":
+        {
+            "border_width": "0"
+        }
+    },
+
+    "text_entry_line":
+    {
+        "colours":
+        {
+            "dark_bg": "#212121",
+            "selected_bg": "#55595e",
+            "normal_text": "#FFFFFF",
+            "selected_text": "#FFFFFF",
+            "normal_border": "#FFFFFF"
+        },
+
+        "misc":
+        {
+            "shape": "rectangle",
+            "shape_corner_radius": 0,
+            "border_width": "0",
+            "shadow_width": "0",
+            "padding": "6,4"
+        }
+    }
+}

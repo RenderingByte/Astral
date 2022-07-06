@@ -31,7 +31,16 @@ def Display(window, clock, font):
         img.fadeIn(1000)
         
         # Play a random song from map directory.
-        data = Engine.load("./maps/" + random.choice(os.listdir("./maps/")) + "/beatmap.json", False)
+        found_valid_map = False
+        
+        while not found_valid_map:
+            try:
+                
+                data = Engine.load("./maps/" + random.choice(os.listdir("./maps/")) + "/beatmap.json", False)
+                found_valid_map = True
+            
+            except: pass
+                
         Globals.mainmenu.selectedsong = data
         Globals.sounds.menumusicsound = pygame.mixer.Sound("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")
         pygame.mixer.music.load("./maps/" + data["title"] + " - " + data["diffname"] + "/audio.mp3")

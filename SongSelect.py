@@ -52,23 +52,18 @@ def Display(window, clock, font):
     # Maps loaded, but not rendered.
     elif not Globals.loadedmaps.drewlist:
         
-        Globals.ui.searchbox = pygame_gui.elements.UITextEntryLine(pygame.Rect((0, 0), (Globals.options.options["screen_width"], Globals.options.options["fontsize"])), manager=Globals.ui.manager)
+        Globals.ui.searchbox = pygame_gui.elements.UITextEntryLine(pygame.Rect((0, Globals.options.options["screen_height"] - (Globals.options.options["fontsize"]*1.5)), (Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/2.5), Globals.options.options["fontsize"]*1.5)), manager=Globals.ui.manager)
+        Globals.ui.searchbox.text = "Search for a map..."
         Globals.ui.searchbox.rebuild()
         
-        Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/2.5), Globals.options.options["fontsize"]-4), (Globals.options.options["screen_width"]/2.5, Globals.options.options["screen_height"] - Globals.options.options["fontsize"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
-        Globals.ui.songselectlist.background_colour = pygame.Color(40,10,25)
-        Globals.ui.songselectlist.border_colour = pygame.Color(255,255,255)
-        Globals.ui.songselectlist.list_item_height = 75
-        Globals.ui.songselectlist.rebuild()
-        
-        # rebuild_from_changed_theme_data()
+        Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/2.5), 0), (Globals.options.options["screen_width"]/2.5, Globals.options.options["screen_height"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
         
         Globals.loadedmaps.drewlist = True
         
     # Already Rendered
     else:
         # Player Queried something
-        if Globals.ui.searchbox.text != "":
+        if Globals.ui.searchbox.text != "" and Globals.ui.searchbox.text != "Search for a map...":
             if Globals.loadedmaps.searchquery != Globals.ui.searchbox.text:
                 
                 search_array = []
@@ -96,21 +91,9 @@ def Display(window, clock, font):
     songselectimg = pygame.transform.scale(songselectimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
     window.blit(songselectimg, (0, 0))
     
-    # Draw Map Name object
-    mapname = font.render(str(Globals.mainmenu.selectedsong["title"]) + " - " + str(Globals.mainmenu.selectedsong["diffname"]) + " | " + str(Globals.mainmenu.selectedsong["artist"] + " / " + str(Globals.mainmenu.selectedsong["creator"])), True, pygame.Color("white"))
-    window.blit(mapname, (15, 50))
-    
-    # Draw Difficulty object
-    difficulty = font.render(("Difficulty: N/A"), True, pygame.Color("white"))
-    window.blit(difficulty, (15, 80))
-    
-    # Draw Keycount object
-    keycount = font.render(("Keycount: " + str(Globals.mainmenu.selectedsong["keyCount"])), True, pygame.Color("white"))
-    window.blit(keycount, (15, 110))
-    
-    # Total Objects object
-    totalobjects = font.render(("Total Objects: " + str(int(Globals.mainmenu.selectedsong["nbNotes"]) + int(Globals.mainmenu.selectedsong["nbHolds"]))), True, pygame.Color("white"))
-    window.blit(totalobjects, (15, 140))
+    # Draw Info object
+    difficulty = font.render(("Difficulty: N/A | Keycount: " + str(Globals.mainmenu.selectedsong["keyCount"]) + " | Total Objects: " + str(int(Globals.mainmenu.selectedsong["nbNotes"]) + int(Globals.mainmenu.selectedsong["nbHolds"]))), True, pygame.Color("white"))
+    window.blit(difficulty, (10, 55))
     
     dtforui = clock.tick(Globals.options.options["fps"])/1000.0
     Globals.ui.manager.update(dtforui)

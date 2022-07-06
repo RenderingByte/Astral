@@ -65,7 +65,7 @@ options.Load()
 # UI Items
 class UI():
     def __init__(self):
-        self.manager = pygame_gui.UIManager((options.options["screen_width"], options.options["screen_height"]))
+        self.manager = pygame_gui.UIManager((options.options["screen_width"], options.options["screen_height"]), "ui_theme.json")
         self.songselectlist = None
         self.searchbox = None
 
@@ -73,15 +73,16 @@ ui = UI()
 
 # Engine/PlayField Images
 class Images():
-    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs):
+    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg):
         self.noteimgs = noteimgs
         self.lnheadimgs = lnheadimgs
         self.lnbodyimgs = lnbodyimgs
         self.lntailimgs = lntailimgs
         self.receptorimgs = receptorimgs
         self.receptorDimgs = receptorDimgs
+        self.playfieldimg = playfieldimg
 
-images = Images([], [], [], [], [], [])
+images = Images([], [], [], [], [], [], None)
 
 # Engine Receptors
 class Receptor():
@@ -191,6 +192,7 @@ def Reset(window, map):
     images.lnheadimgs.clear()
     images.lnbodyimgs.clear()
     images.lntailimgs.clear()
+    images.playfield = None
     
     states = States(False, (True if map == None else False), False, False, False, (False if map == None else True))
     mapinfo = MapInfo(None, None, {}, 0, 0)
