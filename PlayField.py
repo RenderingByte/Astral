@@ -84,7 +84,6 @@ def LoadMap(path):
     else:
         
         print("map failed to load!")
-        Globals.Reset()
         return None, None
 
 def Play(window, font, clock):

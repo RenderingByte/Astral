@@ -151,6 +151,7 @@ if __name__ == "__main__":
                 
                 if audio == None or visual == None:
                     
+                    Globals.Reset(window, None)
                     Globals.states.isselecting = True
                     Globals.states.isplaying = False
                     Globals.mapinfo.map = None
