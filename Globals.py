@@ -65,7 +65,7 @@ options.Load()
 # UI Items
 class UI():
     def __init__(self):
-        self.manager = pygame_gui.UIManager((options.options["screen_width"], options.options["screen_height"]), "ui_theme.json")
+        self.manager = pygame_gui.UIManager((options.options["screen_width"], options.options["screen_height"]), "./skins/" + options.options["skin"] + "/ui_theme.json")
         self.songselectlist = None
         self.searchbox = None
 
