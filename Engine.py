@@ -32,6 +32,9 @@ def Draw(window, map, keycount, dt):
     lnbodyimgs = Globals.images.lnbodyimgs
     lntailimgs = Globals.images.lntailimgs
     misssound = Globals.sounds.misssound
+    hitpos = Globals.options.options["playfield"][keycount-1][0]
+    columnwidth = Globals.options.options["playfield"][keycount-1][1]
+    scrollspeed = Globals.options.options["scrollspeed"]
     
     # Receptor Highlighting
     for key in Globals.receptors:
@@ -46,10 +49,10 @@ def Draw(window, map, keycount, dt):
     # Note Rendering
     for note in map:
 
-        if note["time"] <= Globals.mapinfo.currenttime + ((Globals.options.options["screen_height"] + 50) / (Globals.options.options["scrollspeed"]/10)) and note["endTime"] > Globals.mapinfo.currenttime - ((Globals.options.options["screen_height"] + 50) / (Globals.options.options["scrollspeed"]/10)): # within screen bounds (roughly)
+        if note["time"] <= Globals.mapinfo.currenttime + ((Globals.options.options["screen_height"] + 50) / (scrollspeed/10)) and note["endTime"] > Globals.mapinfo.currenttime - ((Globals.options.options["screen_height"] + 50) / (scrollspeed/10)): # within screen bounds (roughly)
             
-            y = (Globals.mapinfo.currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
-            yLN = (Globals.mapinfo.currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
+            y = (Globals.mapinfo.currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * (scrollspeed/10)
+            yLN = (Globals.mapinfo.currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * (scrollspeed/10) + ((columnwidth/2) / (scrollspeed/10))
             
             # too far down, past bottom of screen so delete and reset combo since it's a miss
             if yLN >= Globals.options.options["screen_height"]+50:
@@ -64,7 +67,7 @@ def Draw(window, map, keycount, dt):
             if Globals.receptors[note["x"]].held:
                 
                 # Inside register area
-                if (y <= Globals.options.options["playfield"][keycount-1][0]+Globals.options.options["playfield"][keycount-1][1]) and (y >= Globals.options.options["playfield"][keycount-1][0]-Globals.options.options["playfield"][keycount-1][1]):
+                if (y <= hitpos+columnwidth) and (y >= hitpos-columnwidth):
                     
                     if note["type"] == "note" and not Globals.receptors[note["x"]].heldafter and not Globals.receptors[note["x"]].holdingln:
                         JudgementQueue.append([note, "hit", y, yLN, None])
@@ -74,7 +77,7 @@ def Draw(window, map, keycount, dt):
                     # hold note, and receptor is released
                     elif note["type"] == "hold" and not Globals.receptors[note["x"]].heldafter:
                         # size of ln is pos+
-                        if (Globals.options.options["playfield"][keycount-1][0] - yLN >= 0):
+                        if (hitpos - yLN >= 0):
                             
                             # size of ln can be pos+ after dt
                             if (note["time"] + dt <= note["endTime"]):
@@ -87,10 +90,10 @@ def Draw(window, map, keycount, dt):
                                     LnReleaseQueue.append([note])
                                     note["newCombo"] = True
                                 
-                                lnobjS = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((Globals.options.options["playfield"][keycount-1][1]/1.5), (Globals.options.options["playfield"][keycount-1][0] - yLN)))
-                                window.blit(lnobjS, (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN + (Globals.options.options["playfield"][keycount-1][1]/2)))
-                                window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN))
-                                window.blit(lnheadimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x, Globals.options.options["playfield"][keycount-1][0]))
+                                lnobjS = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((columnwidth/1.5), (hitpos - yLN))).convert_alpha()
+                                window.blit(lnobjS, (Globals.receptors[note["x"]].x + (columnwidth/6), yLN + (columnwidth/2)))
+                                window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (columnwidth/6), yLN))
+                                window.blit(lnheadimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x, hitpos))
                                 
                                 Globals.receptors[note["x"]].heldafter = False
                                 Globals.receptors[note["x"]].holdingln = True
@@ -105,9 +108,9 @@ def Draw(window, map, keycount, dt):
                             if note in map: del map[map.index(note)] # so it looks better lol
 
             if note["type"] == "hold" and not drewheldln:
-                lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((Globals.options.options["playfield"][keycount-1][1]/1.5), (note["endTime"] - note["time"]) * (Globals.options.options["scrollspeed"]/10)))
-                window.blit(lnobj, (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN))
-                window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN))
+                lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((columnwidth/1.5), (note["endTime"] - note["time"]) * (scrollspeed/10))).convert_alpha()
+                window.blit(lnobj, (Globals.receptors[note["x"]].x + (columnwidth/6), yLN))
+                window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (columnwidth/6), yLN))
                 window.blit(lnheadimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x, y))
                 Globals.receptors[note["x"]].holdingln = False
     
@@ -116,13 +119,13 @@ def Draw(window, map, keycount, dt):
         if not Globals.receptors[note[0]["x"]].held:
             if note[0]["type"] == "hold" and note[0]["newCombo"]:
 
-                y = (Globals.mapinfo.currenttime - (note[0]["time"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
-                yLN = (Globals.mapinfo.currenttime - (note[0]["endTime"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
+                y = (Globals.mapinfo.currenttime - (note[0]["time"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (scrollspeed/10)
+                yLN = (Globals.mapinfo.currenttime - (note[0]["endTime"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (scrollspeed/10) + ((columnwidth/2) / (scrollspeed/10))
                 
                 JudgementQueue.append([note[0], "hit", y, yLN, False]) 
                 Globals.receptors[note[0]["x"]].holdingln = False
                 if note in LnReleaseQueue: del LnReleaseQueue[LnReleaseQueue.index(note)]
-                if Globals.options.options["playfield"][keycount-1][0] - yLN <= Globals.options.options["playfield"][keycount-1][1]/2:
+                if hitpos - yLN <= columnwidth/2:
                     if note[0] in map: del map[map.index(note[0])]
     
     # Update Judgements
@@ -140,48 +143,48 @@ def Draw(window, map, keycount, dt):
             judge_y = ""
             
             if note[0]["type"] == "note":
-                bad_range = Globals.options.options["playfield"][keycount-1][1]/1.013
-                good_range = Globals.options.options["playfield"][keycount-1][1]/1.15
-                great_range = Globals.options.options["playfield"][keycount-1][1]/1.36
-                perfect_range = Globals.options.options["playfield"][keycount-1][1]/2.14
-                marvelous_range = Globals.options.options["playfield"][keycount-1][1]/4.29
+                bad_range = columnwidth/1.013
+                good_range = columnwidth/1.15
+                great_range = columnwidth/1.36
+                perfect_range = columnwidth/2.14
+                marvelous_range = columnwidth/4.29
             elif note[0]["type"] == "hold":
-                bad_range = Globals.options.options["playfield"][keycount-1][1]*2
-                good_range = Globals.options.options["playfield"][keycount-1][1]*2
-                great_range = Globals.options.options["playfield"][keycount-1][1]
-                perfect_range = Globals.options.options["playfield"][keycount-1][1]/1.66
-                marvelous_range = Globals.options.options["playfield"][keycount-1][1]/3
+                bad_range = columnwidth*2
+                good_range = columnwidth*2
+                great_range = columnwidth
+                perfect_range = columnwidth/1.66
+                marvelous_range = columnwidth/3
             
             if note[0]["type"] == "note": judge_y = note[2]
             elif note[0]["type"] == "hold" and note[4]: judge_y = note[2]
-            elif note[0]["type"] == "hold" and not note[4]: judge_y = note[3] - (Globals.options.options["playfield"][keycount-1][1]/2)
+            elif note[0]["type"] == "hold" and not note[4]: judge_y = note[3] - (columnwidth/2)
             else: print("judgement fallback!"); judge_y = note[2] # this should like never occur unless a parse bug got by
 
-            if (judge_y <= Globals.options.options["playfield"][keycount-1][0]+bad_range) and (judge_y >= Globals.options.options["playfield"][keycount-1][0]-bad_range):
+            if (judge_y <= hitpos+bad_range) and (judge_y >= hitpos-bad_range):
                 Globals.stats.combo += 1
                 Globals.stats.latestjudge = "BAD"
                 Globals.stats.score += 50 # 50
                 Globals.stats.bad += 1
                 Globals.stats.hp -= 3
-                if (judge_y <= Globals.options.options["playfield"][keycount-1][0]+good_range) and (judge_y >= Globals.options.options["playfield"][keycount-1][0]-good_range):
+                if (judge_y <= hitpos+good_range) and (judge_y >= hitpos-good_range):
                     Globals.stats.latestjudge = "GOOD"
                     Globals.stats.score += 50  # 100
                     Globals.stats.bad -= 1
                     Globals.stats.good += 1
                     Globals.stats.hp += 1
-                    if (judge_y <= Globals.options.options["playfield"][keycount-1][0]+great_range) and (judge_y >= Globals.options.options["playfield"][keycount-1][0]-great_range):
+                    if (judge_y <= hitpos+great_range) and (judge_y >= hitpos-great_range):
                         Globals.stats.latestjudge = "GREAT"
                         Globals.stats.score += 100  # 200
                         Globals.stats.good -= 1
                         Globals.stats.great += 1
                         Globals.stats.hp += 1
-                        if (judge_y <= Globals.options.options["playfield"][keycount-1][0]+perfect_range) and (judge_y >= Globals.options.options["playfield"][keycount-1][0]-perfect_range):
+                        if (judge_y <= hitpos+perfect_range) and (judge_y >= hitpos-perfect_range):
                             Globals.stats.latestjudge = "PERFECT"
                             Globals.stats.score += 100 # 300
                             Globals.stats.great -= 1
                             Globals.stats.perf += 1
                             Globals.stats.hp += 3
-                            if (judge_y <= Globals.options.options["playfield"][keycount-1][0]+marvelous_range) and (judge_y >= Globals.options.options["playfield"][keycount-1][0]-marvelous_range):
+                            if (judge_y <= hitpos+marvelous_range) and (judge_y >= hitpos-marvelous_range):
                                 Globals.stats.latestjudge = "MARVELOUS"
                                 Globals.stats.score += 50 # 350
                                 Globals.stats.perf -= 1

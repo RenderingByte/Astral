@@ -65,12 +65,6 @@ Globals.images.passimg = pygame.transform.scale(Globals.images.passimg, (Globals
 # Application Entry Point
 if __name__ == "__main__":
     
-    
-    
-    
-    
-    
-    
     print("This program is still in development. Please expect and report any bugs to Byte#4174, or on the GitHub page.")
     print("Maps with SV Changes will have incorrect timing. SV's aren't even implemented anyways, so there should be no reason for you to be playing these maps.")
     print("Some regular maps may be out of sync as well, but this should be rare.")
