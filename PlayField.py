@@ -73,7 +73,7 @@ def LoadMap(path):
         
         # Calculate the offset of the map.
         audio = 0
-        visual = (60/timingpoints[0]["bpm"])
+        visual = 0
 
         return audio, visual
     
@@ -107,7 +107,8 @@ def Play(window, font, clock):
             current_tp = Globals.mapinfo.playingtps[i-1]
             if i == 0: first_tp = True
                 
-    if not first_tp and (tp_to_apply != {} and current_tp != {}): Globals.mapinfo.currenttime = (Globals.mapinfo.currenttime - (60/current_tp["bpm"]) + (60/tp_to_apply["bpm"]))
+    if not first_tp and (tp_to_apply != {} and current_tp != {}): Globals.mapinfo.currenttime = Globals.mapinfo.currenttime - (60/current_tp["bpm"]/current_tp["timingSignature"]) + (60/tp_to_apply["bpm"]/tp_to_apply["timingSignature"])
+    if first_tp and Globals.mapinfo.currenttime == 0: Globals.mapinfo.currenttime = Globals.mapinfo.currenttime + (60/tp_to_apply["bpm"]/tp_to_apply["timingSignature"])
     
     # Update the current time with delta.
     # This also adds frame indepedency.
@@ -116,11 +117,12 @@ def Play(window, font, clock):
     
     # Player has died.
     if Globals.stats.hp <= 0:
-        Globals.Reset(window, Globals.mapinfo.playingmap)
+
+        Globals.Reset(window, Globals.mapinfo.playingmap, False)
         return
     
     # Map has been completed.
-    elif len(Globals.mapinfo.playingmap) == 0: window.blit(font.render("MAP COMPLETED", True, pygame.Color('green')), (Globals.options.options["screen_width"]/2, Globals.options.options["screen_height"]/5))
+    elif len(Globals.mapinfo.playingmap) == 0: Globals.Reset(window, Globals.mapinfo.playingmap, True); return
     
     # Update Engine
     Engine.Draw(window, Globals.mapinfo.playingmap, Globals.mapinfo.keycount, dt)

@@ -25,7 +25,7 @@
     "accpos": [100, 100],
     "healthbarsize": [5, 20],
     "songprogresssize": [1920, 20],
-    "judgementsize": [100, 80],
+    "judgementsize": [80, 55],
     "fpscolour": "pink",
     "objectscolour": "pink",
     "combocolour": "white",

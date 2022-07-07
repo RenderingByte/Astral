@@ -73,7 +73,7 @@ ui = UI()
 
 # Engine/PlayField Images
 class Images():
-    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg, marvimg, perfimg, greatimg, goodimg, badimg, missimg):
+    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg, marvimg, perfimg, greatimg, goodimg, badimg, missimg, failimg, passimg):
         self.noteimgs = noteimgs
         self.lnheadimgs = lnheadimgs
         self.lnbodyimgs = lnbodyimgs
@@ -90,8 +90,10 @@ class Images():
         self.goodimg = goodimg
         self.badimg = badimg
         self.missimg = missimg
+        self.failimg = failimg
+        self.passimg = passimg
 
-images = Images([], [], [], [], [], [], None, None, None, None, None, None, None, None, None, None)
+images = Images([], [], [], [], [], [], None, None, None, None, None, None, None, None, None, None, None, None)
 
 # Engine Receptors
 class Receptor():
@@ -135,13 +137,13 @@ sounds = Sounds(None, None, None, None)
 
 # Global States
 class States():
-    def __init__(self, inmenu, isselecting, inoptions, isplaying, inmap, failed):
+    def __init__(self, inmenu, isselecting, inoptions, isplaying, inmap, showresults):
         self.inmenu = inmenu
         self.isselecting = isselecting
         self.inoptions = inoptions
         self.isplaying = isplaying
         self.inmap = inmap
-        self.failed = failed
+        self.showresults = showresults
 
 states = States(True, False, False, False, False, False)
 
@@ -173,7 +175,7 @@ class MainMenu():
 
 mainmenu = MainMenu(None)
 
-def Reset(window, map):
+def Reset(window, map, passed):
     global states, mapinfo, stats
     """
         Reset the Engine and Various Globals.
@@ -186,12 +188,13 @@ def Reset(window, map):
     # Stop the song.
     pygame.mixer.music.stop()
     
-    # If a map object has been passed, fail the player.
+    # If a map object has been passed
     if not map == None:
+        
         map.clear()
-        failimg = pygame.image.load("./images/fail.png").convert_alpha()
-        failimg = pygame.transform.scale(failimg, (options.options["screen_width"], options.options["screen_height"]))
-        window.blit(failimg, (0, 0))
+        
+        if passed: window.blit(images.passimg, (0, 0))
+        else: window.blit(images.failimg, (0, 0))
     
     receptors.clear()
     

@@ -50,7 +50,6 @@ def Draw(window, map, keycount, dt):
             
             y = (Globals.mapinfo.currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10)
             yLN = (Globals.mapinfo.currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * (Globals.options.options["scrollspeed"]/10) + ((Globals.options.options["playfield"][keycount-1][1]/2) / (Globals.options.options["scrollspeed"]/10))
-            lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((Globals.options.options["playfield"][keycount-1][1]/1.5), (note["endTime"] - note["time"]) * (Globals.options.options["scrollspeed"]/10)))
             
             # too far down, past bottom of screen so delete and reset combo since it's a miss
             if yLN >= Globals.options.options["screen_height"]+50:
@@ -106,6 +105,7 @@ def Draw(window, map, keycount, dt):
                             if note in map: del map[map.index(note)] # so it looks better lol
 
             if note["type"] == "hold" and not drewheldln:
+                lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((Globals.options.options["playfield"][keycount-1][1]/1.5), (note["endTime"] - note["time"]) * (Globals.options.options["scrollspeed"]/10)))
                 window.blit(lnobj, (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN))
                 window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (Globals.options.options["playfield"][keycount-1][1]/6), yLN))
                 window.blit(lnheadimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x, y))

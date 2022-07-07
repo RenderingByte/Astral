@@ -57,9 +57,19 @@ Globals.images.badimg = pygame.image.load("./skins/" + Globals.options.options["
 Globals.images.badimg = pygame.transform.scale(Globals.images.badimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
 Globals.images.missimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/miss.png").convert_alpha()
 Globals.images.missimg = pygame.transform.scale(Globals.images.missimg, (Globals.options.options["judgementsize"][0], Globals.options.options["judgementsize"][1]))
+Globals.images.failimg = pygame.image.load("./images/fail.png").convert_alpha()
+Globals.images.failimg = pygame.transform.scale(Globals.images.failimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+Globals.images.passimg = pygame.image.load("./images/pass.png").convert_alpha()
+Globals.images.passimg = pygame.transform.scale(Globals.images.passimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
 
 # Application Entry Point
 if __name__ == "__main__":
+    
+    
+    
+    
+    
+    
     
     print("This program is still in development. Please expect and report any bugs to Byte#4174, or on the GitHub page.")
     print("Maps with SV Changes will have incorrect timing. SV's aren't even implemented anyways, so there should be no reason for you to be playing these maps.")
@@ -137,16 +147,18 @@ if __name__ == "__main__":
                         Globals.states.inmenu = True
                         Globals.states.isselecting = False
                         
-                elif Globals.states.failed:
+                elif Globals.states.showresults:
                     if event.key == pygame.K_RETURN:
                         
+                        Globals.ui.songselectlist.enable()
                         Globals.states.isselecting = True
-                        Globals.states.failed = False
+                        Globals.states.showresults = False
                         
                 elif Globals.states.isplaying:
                     if event.key == pygame.K_ESCAPE:
                         
-                        Globals.Reset(window, None)
+                        Globals.ui.songselectlist.enable()
+                        Globals.Reset(window, None, False)
                         
                     else:
                         
@@ -173,7 +185,7 @@ if __name__ == "__main__":
                 
                 if audio == None or visual == None:
                     
-                    Globals.Reset(window, None)
+                    Globals.Reset(window, None, False)
                     Globals.states.isselecting = True
                     Globals.states.isplaying = False
                     Globals.mapinfo.map = None
@@ -184,6 +196,7 @@ if __name__ == "__main__":
                         
                         pygame.mixer.music.play(start=(audio))
                         Globals.mapinfo.currenttime = visual
+                        Globals.ui.songselectlist.disable()
                         Globals.states.inmap = True
                         
                     else:
@@ -191,7 +204,7 @@ if __name__ == "__main__":
                         Globals.mapinfo.map = None
                         Globals.states.isplaying = False
                         Globals.states.isselecting = True
-                        Globals.Reset(window, None)
+                        Globals.Reset(window, None, False)
                 
             # Remove if, push up one indentation level??
-            if not Globals.mapinfo.playingmap == None: PlayField.Play(window, font, clock)
+            if not Globals.mapinfo.playingmap == None and not Globals.states.showresults: PlayField.Play(window, font, clock)
