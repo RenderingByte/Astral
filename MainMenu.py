@@ -71,5 +71,3 @@ def Display(window, clock, font):
         # Display song progress
         timepercent = 100 * ((pygame.mixer.music.get_pos()/1000) + Globals.options.options["audiooffset"]) / Globals.sounds.menumusicsound.get_length()
         pygame.draw.rect(window, pygame.Color(Globals.options.options["songprogresscolour"]), (Globals.options.options["songprogresspos"][0], Globals.options.options["songprogresspos"][1], timepercent * (Globals.options.options["songprogresssize"][0]/100), Globals.options.options["songprogresssize"][1]))
-
-    pygame.display.update()

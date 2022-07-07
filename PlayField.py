@@ -173,6 +173,3 @@ def Play(window, font, clock):
     elif Globals.stats.hp >= 25: hpcolour = Globals.options.options["healthbarmediumcolour"]
     elif Globals.stats.hp < 25: hpcolour = Globals.options.options["healthbarlowcolour"]
     pygame.draw.rect(window, pygame.Color(hpcolour), (Globals.options.options["healthbarpos"][0], Globals.options.options["healthbarpos"][1], Globals.stats.hp * Globals.options.options["healthbarsize"][0], Globals.options.options["healthbarsize"][1]))
-    
-    # Update Display
-    pygame.display.update()

@@ -21,7 +21,3 @@ def Display(window, clock, font):
     window.fill((0,0,0))
     
     window.blit(Globals.images.optionsmenuimg, (0, 0))
-    
-    
-    
-    pygame.display.update()

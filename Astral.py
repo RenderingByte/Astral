@@ -22,6 +22,7 @@ pygame.init()
 pygame.mixer.init()
 pygame.key.set_repeat()
 pygame.event.set_allowed([QUIT, KEYDOWN, KEYUP])
+pygame.mouse.set_visible(False)
 
 # Window Setup
 window = pygame.display.set_mode((Globals.options.options["screen_width"], Globals.options.options["screen_height"]), (FULLSCREEN | DOUBLEBUF if Globals.options.options["fullscreen"] else DOUBLEBUF), 24)
@@ -61,6 +62,8 @@ Globals.images.failimg = pygame.image.load("./images/fail.png").convert_alpha()
 Globals.images.failimg = pygame.transform.scale(Globals.images.failimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
 Globals.images.passimg = pygame.image.load("./images/pass.png").convert_alpha()
 Globals.images.passimg = pygame.transform.scale(Globals.images.passimg, (Globals.options.options["screen_width"], Globals.options.options["screen_height"]))
+Globals.images.cursorimg = pygame.image.load("./skins/" + Globals.options.options["skin"] + "/cursor.png").convert_alpha()
+Globals.images.cursorimgrect = Globals.images.cursorimg.get_rect()
 
 # Application Entry Point
 if __name__ == "__main__":
@@ -202,3 +205,10 @@ if __name__ == "__main__":
                 
             # Remove if, push up one indentation level??
             if not Globals.mapinfo.playingmap == None and not Globals.states.showresults: PlayField.Play(window, font, clock)
+        
+        # Draw Cursor
+        Globals.images.cursorimgrect.center = pygame.mouse.get_pos()
+        window.blit(Globals.images.cursorimg, Globals.images.cursorimgrect)
+        
+        # Update Display
+        pygame.display.update()

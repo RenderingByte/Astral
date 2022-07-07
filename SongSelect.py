@@ -98,4 +98,3 @@ def Display(window, clock, font):
     dtforui = clock.tick(Globals.options.options["fps"])/1000.0
     Globals.ui.manager.update(dtforui)
     Globals.ui.manager.draw_ui(window)
-    pygame.display.update()

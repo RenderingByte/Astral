@@ -77,7 +77,7 @@ ui = UI()
 
 # Engine/PlayField Images
 class Images():
-    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg, marvimg, perfimg, greatimg, goodimg, badimg, missimg, failimg, passimg):
+    def __init__(self, noteimgs, lnheadimgs, lnbodyimgs, lntailimgs, receptorimgs, receptorDimgs, playfieldimg, mainmenuimg, optionsmenuimg, songselectmenuimg, marvimg, perfimg, greatimg, goodimg, badimg, missimg, failimg, passimg, cursorimg, cursorimgrect):
         self.noteimgs = noteimgs
         self.lnheadimgs = lnheadimgs
         self.lnbodyimgs = lnbodyimgs
@@ -96,8 +96,10 @@ class Images():
         self.missimg = missimg
         self.failimg = failimg
         self.passimg = passimg
+        self.cursorimg = cursorimg
+        self.cursorimgrect = cursorimgrect
 
-images = Images([], [], [], [], [], [], None, None, None, None, None, None, None, None, None, None, None, None)
+images = Images([], [], [], [], [], [], None, None, None, None, None, None, None, None, None, None, None, None, None, None)
 
 # Engine Receptors
 class Receptor():
@@ -212,5 +214,3 @@ def Reset(window, map, passed):
     states = States(False, (True if map == None else False), False, False, False, (False if map == None else True))
     mapinfo = MapInfo(None, None, {}, 0, 0)
     stats = Stats(0,0,100,0,0,0,0,0,0,100)
-   
-    pygame.display.update()
