@@ -26,7 +26,11 @@ def CheckForUpdates():
     """
 
     # Get the latest version from GitHub.
-    req = requests.get("https://raw.githubusercontent.com/RenderingByte/Astral/installer/ver.txt")
+    try:
+        req = requests.get("https://raw.githubusercontent.com/RenderingByte/Astral/installer/ver.txt")
+    except:
+        print("No Network Connection - Cannot check for updates.")
+        
     cloudver = float(req.text)
     
     if cloudver > float(clientversion):
