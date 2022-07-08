@@ -1,6 +1,6 @@
 echo off
 cls
-title Astral Installer V1.00
+title Astral Installer V1.01
 
 IF EXIST "Astral.py" (
 	echo Astral is now being updated...
@@ -65,6 +65,9 @@ pip install pygame
 echo:
 echo Installing PygameGui...
 pip install pygame-gui
+echo:
+echo Installing Pypresence...
+pip install pypresence
 
 cls
 
