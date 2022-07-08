@@ -214,3 +214,7 @@ def Reset(window, map, passed):
     states = States(False, (True if map == None else False), False, False, False, (False if map == None else True))
     mapinfo = MapInfo(None, None, {}, 0, 0)
     stats = Stats(0,0,100,0,0,0,0,0,0,100)
+    
+    # So the UI images don't have to be moved over to Astral.py
+    # This shouldn't hurt performance too much.
+    pygame.display.update()

@@ -13,6 +13,7 @@ import OptionsMenu
 import SongSelect
 import PlayField
 import Engine
+import RPC
 import pygame
 import pygame_gui
 from pygame.locals import *
@@ -101,7 +102,7 @@ if __name__ == "__main__":
                         print("Song failed to load due to an error.")
                         break
                     
-                    Globals.mainmenu.selectedsong = data    
+                    Globals.mainmenu.selectedsong = data
                             
             if event.type == pygame_gui.UI_SELECTION_LIST_DOUBLE_CLICKED_SELECTION:
                 if event.ui_element == Globals.ui.songselectlist:
@@ -165,16 +166,23 @@ if __name__ == "__main__":
         
         if Globals.states.inmenu:
             
+            RPC.config.details_text = "Main Menu"
             MainMenu.Display(window, clock, font)
             
         elif Globals.states.inoptions:
             
+            RPC.config.details_text = "Configuring Options"
             OptionsMenu.Display(window, clock, font)
             
         elif Globals.states.isselecting:
             
+            RPC.config.details_text = "Selecting A Map"
             SongSelect.Display(window, clock, font)
+        
+        elif Globals.states.showresults:
             
+            RPC.config.details_text = "Viewing Results"
+        
         elif Globals.states.isplaying:
             if not Globals.states.inmap:
                 
@@ -195,6 +203,7 @@ if __name__ == "__main__":
                         Globals.mapinfo.currenttime = visual
                         Globals.ui.songselectlist.disable()
                         Globals.states.inmap = True
+                        RPC.config.details_text = "Playing " + Globals.mapinfo.map
                         
                     else:
                         
