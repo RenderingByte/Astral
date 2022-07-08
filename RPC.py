@@ -3,21 +3,13 @@
 # This file serves as the host for the Discord RPC for Astral.
 
 # Imports
-import time
+import Globals
 import threading
+import time
 from pypresence import Presence
 
 # Initialization
 RPC = Presence("994801218486550598")
-
-try:
-    
-    RPC.connect()
-    print("Discord RPC Connected.")
-    
-except:
-    
-    print("Discord RPC Connection Failed.")
 
 # RPC Configuration
 class Config():
@@ -31,7 +23,7 @@ config = Config("Astral Is Loading", "")
 def Handle():
     while 1:
         
-        # Only update if state has changed
+        # Only update if state has changed.
         if config.current_details_text != config.details_text:
             
             RPC.update(
@@ -45,6 +37,19 @@ def Handle():
         
         # Minimum time between updates is 15 Seconds.
         time.sleep(15)
+
+# Only run if the user wants Discord RPC Enabled.
+if Globals.options.options["enablerpc"]:
+
+    # Establish a connection to Discord.
+    try:
         
-# RPC Thread
-threading.Thread(target=Handle, args=()).start()
+        RPC.connect()
+        print("Discord RPC Connected.")
+        
+    except:
+        
+        print("Discord RPC Connection Failed.")
+            
+    # RPC Thread
+    threading.Thread(target=Handle, args=()).start()
