@@ -28,7 +28,7 @@ def Handle():
             
             RPC.update(
                 large_image="icon",
-                large_text="Clicking to the music",
+                large_text="Astral Projecting Notes",
                 details=config.details_text,
                 start=int(time.time())
             )
