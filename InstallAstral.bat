@@ -103,6 +103,6 @@ echo:
 echo Extracted.
 cls
 
-start Astral.bat
+start Parse All.bat
 
 pause
