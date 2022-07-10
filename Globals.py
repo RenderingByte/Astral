@@ -297,13 +297,16 @@ stats = Stats(0,0,100,0,0,0,0,0,0,100)
 
 # Global Sounds
 class Sounds():
-    def __init__(self, menumusicsound, musicsound, hitsound, misssound):
+    def __init__(self, menumusicsound, musicsound, hitsound, misssound, uibutton, failsound, passsound):
         self.menumusicsound = menumusicsound
         self.musicsound = musicsound
         self.hitsound = hitsound
         self.misssound = misssound
+        self.uibutton = uibutton
+        self.failsound = failsound
+        self.passsound = passsound
 
-sounds = Sounds(None, None, None, None)
+sounds = Sounds(None, None, None, None, None, None, None)
 
 # Global States
 class States():

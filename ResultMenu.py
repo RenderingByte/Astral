@@ -17,6 +17,10 @@ def Display(window, clock, font):
         :param font: The font object (declared in Astral.py)
 
     """
-    
-    if Globals.states.showfailed: window.blit(Globals.images.failimg, (0, 0))
-    else: window.blit(Globals.images.passimg, (0, 0))
+
+    if Globals.states.showfailed:
+        if not pygame.mixer.Channel(3).get_busy(): pygame.mixer.Channel(3).play(Globals.sounds.failsound)
+        window.blit(Globals.images.failimg, (0, 0))
+    else:
+        if not pygame.mixer.Channel(3).get_busy(): pygame.mixer.Channel(3).play(Globals.sounds.passsound)
+        window.blit(Globals.images.passimg, (0, 0))

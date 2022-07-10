@@ -36,8 +36,14 @@ font = pygame.font.Font("./fonts/" + Globals.options.options["fontname"], Global
 # Sounds
 Globals.sounds.hitsound = pygame.mixer.Sound("./skins/" + Globals.options.options["skin"] + "/sounds/hitsound.mp3")
 Globals.sounds.misssound = pygame.mixer.Sound("./skins/" + Globals.options.options["skin"] + "/sounds/misssound.mp3")
+Globals.sounds.uibutton = pygame.mixer.Sound("./skins/" + Globals.options.options["skin"] + "/sounds/uibutton.mp3")
+Globals.sounds.failsound = pygame.mixer.Sound("./skins/" + Globals.options.options["skin"] + "/sounds/failsound.mp3")
+Globals.sounds.passsound = pygame.mixer.Sound("./skins/" + Globals.options.options["skin"] + "/sounds/passsound.mp3")
 pygame.mixer.Sound.set_volume(Globals.sounds.hitsound, Globals.options.options["soundvolume"])
 pygame.mixer.Sound.set_volume(Globals.sounds.misssound, Globals.options.options["soundvolume"])
+pygame.mixer.Sound.set_volume(Globals.sounds.uibutton, Globals.options.options["soundvolume"])
+pygame.mixer.Sound.set_volume(Globals.sounds.failsound, Globals.options.options["soundvolume"])
+pygame.mixer.Sound.set_volume(Globals.sounds.passsound, Globals.options.options["soundvolume"])
 
 # Images
 Globals.images.mainmenuimg = pygame.image.load("./images/mainmenu.png").convert_alpha()
@@ -96,14 +102,17 @@ if __name__ == "__main__":
                     Globals.options.options["fullscreen"] = not Globals.options.options["fullscreen"]
                     Globals.ui.fullscreenselect.text = "FULLSCREEN: " + ("true" if Globals.options.options["fullscreen"] else "false")
                     Globals.ui.fullscreenselect.rebuild()
+                    pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                 elif event.ui_element == Globals.ui.enablerpcselect:
                     Globals.options.options["enablerpc"] = not Globals.options.options["enablerpc"]
                     Globals.ui.enablerpcselect.text = "RPC: " + ("true" if Globals.options.options["enablerpc"] else "false")
                     Globals.ui.enablerpcselect.rebuild()
+                    pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                 elif event.ui_element == Globals.ui.fourkeyonlyselect:
                     Globals.options.options["fourkeyonly"] = not Globals.options.options["fourkeyonly"]
                     Globals.ui.fourkeyonlyselect.text = "4K ONLY: " + ("true" if Globals.options.options["fourkeyonly"] else "false")
                     Globals.ui.fourkeyonlyselect.rebuild()
+                    pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
             
             # -> Selection Lists
             if event.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
@@ -112,6 +121,7 @@ if __name__ == "__main__":
                     data = Engine.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/beatmap.json", False)
                     
                     try:
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         pygame.mixer.music.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/audio.mp3")
                         pygame.mixer.music.play(start=(data["previewTime"]/1000))
                     except:
@@ -125,6 +135,7 @@ if __name__ == "__main__":
                     if Globals.mapinfo.map == None:
                         
                         pygame.mixer.music.stop()
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         
                         if not Globals.ui.songselectlist.get_single_selection() == None:
                             
@@ -140,40 +151,48 @@ if __name__ == "__main__":
                     elif event.key == pygame.K_RETURN:
                         
                         pygame.mixer.music.stop()
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.states.inmenu = False
                         Globals.states.isselecting = True
                         
                     elif event.key == pygame.K_TAB:
                             
                         pygame.mixer.music.stop()
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.states.inmenu = False
                         Globals.states.inoptions = True
                         
                 elif Globals.states.inoptions:
                     if event.key == pygame.K_ESCAPE:
                         
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.states.inmenu = True
                         Globals.states.inoptions = False
                     
                     elif event.key == pygame.K_RETURN:
                         
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.options.Save()
                         
                 elif Globals.states.isselecting:
                     if event.key == pygame.K_ESCAPE:
                         
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.states.inmenu = True
                         Globals.states.isselecting = False
                         
                 elif Globals.states.showresults:
                     if event.key == pygame.K_RETURN:
                         
+                        pygame.mixer.Channel(3).stop()
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.states.isselecting = True
                         Globals.states.showresults = False
                         
                 elif Globals.states.isplaying:
                     if event.key == pygame.K_ESCAPE:
                         
+                        pygame.mixer.Channel(2).play(Globals.sounds.uibutton)
                         Globals.Reset(window, None, False)
                         
                     else:
