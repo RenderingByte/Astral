@@ -69,7 +69,7 @@ def LoadMap(path):
         Globals.mapinfo.playingtps = timingpoints
         Globals.mapinfo.keycount = keycount
         
-        print("Map loaded: " + path)
+        print("\033[92mMap loaded: " + path)
         
         # Calculate the offset of the map.
         audio = 0
@@ -79,7 +79,7 @@ def LoadMap(path):
     
     else:
         
-        print("map failed to load!")
+        print("\033[91mmap failed to load!")
         return None, None
 
 def Play(window, font, clock):
@@ -172,4 +172,4 @@ def Play(window, font, clock):
     if Globals.stats.hp >= 75: hpcolour = Globals.options.options["healthbarnormalcolour"]
     elif Globals.stats.hp >= 25: hpcolour = Globals.options.options["healthbarmediumcolour"]
     elif Globals.stats.hp < 25: hpcolour = Globals.options.options["healthbarlowcolour"]
-    pygame.draw.rect(window, pygame.Color(hpcolour), (Globals.options.options["healthbarpos"][0], Globals.options.options["healthbarpos"][1], Globals.stats.hp * Globals.options.options["healthbarsize"][0], Globals.options.options["healthbarsize"][1]))
+    pygame.draw.rect(window, pygame.Color(hpcolour), (Globals.options.options["healthbarpos"][0], Globals.options.options["healthbarpos"][1], (Globals.stats.hp/100) * (Globals.options.options["healthbarsize"][0]), Globals.options.options["healthbarsize"][1]))

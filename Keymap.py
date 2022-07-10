@@ -3,6 +3,7 @@
 # This file serves as a way to provide a conventional keymap for the program.
 
 # Imports
+import Globals
 import pygame.key
 
 # Initialization
@@ -106,6 +107,5 @@ def GetKey(key):
     
     else:
         
-        print("Sorry, but your key: '", key, "' is currently not an available keybind. Please choose something else!")
-        pygame.quit()
-        exit()
+        print("\033[91mSorry, but your key: '", key, "' is currently not an available keybind. Please choose something else!")
+        Globals.program.isRunning = False

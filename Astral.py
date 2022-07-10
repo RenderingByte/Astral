@@ -10,6 +10,7 @@ env['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import Globals
 import MainMenu
 import OptionsMenu
+import ResultMenu
 import SongSelect
 import PlayField
 import Engine
@@ -19,16 +20,16 @@ import pygame_gui
 from pygame.locals import *
 
 # Pygame Initialization
+pygame.mixer.pre_init(48000, 16, 2, 4096)
 pygame.init()
-pygame.mixer.init()
 pygame.key.set_repeat()
 pygame.event.set_allowed([QUIT, KEYDOWN, KEYUP])
 pygame.mouse.set_visible(False)
 
 # Window Setup
-window = pygame.display.set_mode((Globals.options.options["screen_width"], Globals.options.options["screen_height"]), (FULLSCREEN | DOUBLEBUF if Globals.options.options["fullscreen"] else DOUBLEBUF), 24)
+window = pygame.display.set_mode((Globals.options.options["screen_width"], Globals.options.options["screen_height"]), (FULLSCREEN | DOUBLEBUF if Globals.options.options["fullscreen"] else DOUBLEBUF))
 pygame.display.set_caption("Astral")
-pygame.display.set_icon(pygame.image.load('./images/icon_transparent.png'))
+pygame.display.set_icon(pygame.image.load('./images/icon_transparent.png').convert_alpha())
 clock = pygame.time.Clock()
 font = pygame.font.Font("./fonts/" + Globals.options.options["fontname"], Globals.options.options["fontsize"])
 
@@ -69,25 +70,40 @@ Globals.images.cursorimgrect = Globals.images.cursorimg.get_rect()
 # Application Entry Point
 if __name__ == "__main__":
     
-    print("This program is still in development. Please expect and report any bugs to Byte#4174, or on the GitHub page.")
-    print("Maps with SV Changes will have incorrect timing. SV's aren't even implemented anyways, so there should be no reason for you to be playing these maps.")
-    print("Some regular maps may be out of sync as well, but this should be rare.")
-    
     Globals.CheckForUpdates()
+    
+    print("\033[95mThis program is still in development. Please expect and report any bugs to Byte#4174, or on the GitHub page.")
+    print("\033[95mMaps with SV Changes will have incorrect timing. SV's aren't even implemented anyways, so there should be no reason for you to be playing these maps.")
+    print("\033[95mSome regular maps may be out of sync as well, but this should be rare.")
 
     # Window Loop
-    while 1:
+    while Globals.program.isRunning:
         
-        window.fill((0,0,0))
+        window.fill((0, 0, 0))
         
         # Pygame Events are captured here
         for event in pygame.event.get():
             
             # Exit Event
-            if event.type == pygame.QUIT: pygame.quit(); exit()
+            if event.type == pygame.QUIT: Globals.program.isRunning = False
             
             # Capture UI Events
             Globals.ui.manager.process_events(event)
+            
+            # -> Buttons
+            if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                if event.ui_element == Globals.ui.fullscreenselect:
+                    Globals.options.options["fullscreen"] = not Globals.options.options["fullscreen"]
+                    Globals.ui.fullscreenselect.text = "FULLSCREEN: " + ("true" if Globals.options.options["fullscreen"] else "false")
+                    Globals.ui.fullscreenselect.rebuild()
+                elif event.ui_element == Globals.ui.enablerpcselect:
+                    Globals.options.options["enablerpc"] = not Globals.options.options["enablerpc"]
+                    Globals.ui.enablerpcselect.text = "RPC: " + ("true" if Globals.options.options["enablerpc"] else "false")
+                    Globals.ui.enablerpcselect.rebuild()
+                elif event.ui_element == Globals.ui.fourkeyonlyselect:
+                    Globals.options.options["fourkeyonly"] = not Globals.options.options["fourkeyonly"]
+                    Globals.ui.fourkeyonlyselect.text = "4K ONLY: " + ("true" if Globals.options.options["fourkeyonly"] else "false")
+                    Globals.ui.fourkeyonlyselect.rebuild()
             
             # -> Selection Lists
             if event.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
@@ -99,7 +115,7 @@ if __name__ == "__main__":
                         pygame.mixer.music.load("./maps/" + Globals.ui.songselectlist.get_single_selection() + "/audio.mp3")
                         pygame.mixer.music.play(start=(data["previewTime"]/1000))
                     except:
-                        print("Song failed to load due to an error.")
+                        print("\033[91mSong failed to load due to an error.")
                         break
                     
                     Globals.mainmenu.selectedsong = data
@@ -119,7 +135,7 @@ if __name__ == "__main__":
             # Handle Keypresses
             if event.type == pygame.KEYDOWN:
                 if Globals.states.inmenu:
-                    if event.key == pygame.K_ESCAPE: pygame.quit(); exit()
+                    if event.key == pygame.K_ESCAPE: Globals.program.isRunning = False
                         
                     elif event.key == pygame.K_RETURN:
                         
@@ -128,7 +144,7 @@ if __name__ == "__main__":
                         Globals.states.isselecting = True
                         
                     elif event.key == pygame.K_TAB:
-                        
+                            
                         pygame.mixer.music.stop()
                         Globals.states.inmenu = False
                         Globals.states.inoptions = True
@@ -138,6 +154,10 @@ if __name__ == "__main__":
                         
                         Globals.states.inmenu = True
                         Globals.states.inoptions = False
+                    
+                    elif event.key == pygame.K_RETURN:
+                        
+                        Globals.options.Save()
                         
                 elif Globals.states.isselecting:
                     if event.key == pygame.K_ESCAPE:
@@ -148,14 +168,12 @@ if __name__ == "__main__":
                 elif Globals.states.showresults:
                     if event.key == pygame.K_RETURN:
                         
-                        Globals.ui.songselectlist.enable()
                         Globals.states.isselecting = True
                         Globals.states.showresults = False
                         
                 elif Globals.states.isplaying:
                     if event.key == pygame.K_ESCAPE:
                         
-                        Globals.ui.songselectlist.enable()
                         Globals.Reset(window, None, False)
                         
                     else:
@@ -166,22 +184,33 @@ if __name__ == "__main__":
         
         if Globals.states.inmenu:
             
+            Globals.VisibleUI(False, "options")
+            Globals.VisibleUI(False, "songselect")    
             RPC.config.details_text = "Main Menu"
             MainMenu.Display(window, clock, font)
             
         elif Globals.states.inoptions:
+            
+            Globals.VisibleUI(True, "options")
+            Globals.VisibleUI(False, "songselect")  
             
             RPC.config.details_text = "Configuring Options"
             OptionsMenu.Display(window, clock, font)
             
         elif Globals.states.isselecting:
             
+            Globals.VisibleUI(False, "options")
+            Globals.VisibleUI(True, "songselect")  
+            
             RPC.config.details_text = "Selecting A Map"
             SongSelect.Display(window, clock, font)
         
         elif Globals.states.showresults:
             
+            Globals.VisibleUI(False, "options")
+            Globals.VisibleUI(False, "songselect")  
             RPC.config.details_text = "Viewing Results"
+            ResultMenu.Display(window, clock, font)
         
         elif Globals.states.isplaying:
             if not Globals.states.inmap:
@@ -199,9 +228,11 @@ if __name__ == "__main__":
                 
                     if not Globals.mapinfo.playingmap == None:
                         
-                        pygame.mixer.music.play(start=(audio))
+                        Globals.VisibleUI(False, "options")
+                        Globals.VisibleUI(False, "songselect")  
+                        
+                        pygame.mixer.music.play(start=(audio + Globals.options.options["audiooffset"]))
                         Globals.mapinfo.currenttime = visual
-                        Globals.ui.songselectlist.disable()
                         Globals.states.inmap = True
                         RPC.config.details_text = "Playing " + Globals.mapinfo.map
                         
@@ -216,7 +247,8 @@ if __name__ == "__main__":
             if not Globals.mapinfo.playingmap == None and not Globals.states.showresults: PlayField.Play(window, font, clock)
         
         # Draw Cursor
-        Globals.images.cursorimgrect.center = pygame.mouse.get_pos()
+        mpos = pygame.mouse.get_pos()
+        Globals.images.cursorimgrect.center = (mpos[0] + (Globals.images.cursorimg.get_width()/2), mpos[1] + (Globals.images.cursorimg.get_height()/2))
         window.blit(Globals.images.cursorimg, Globals.images.cursorimgrect)
         
         # Update Display

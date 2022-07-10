@@ -49,10 +49,10 @@ def Draw(window, map, keycount, dt):
     # Note Rendering
     for note in map:
 
-        if note["time"] <= Globals.mapinfo.currenttime + ((Globals.options.options["screen_height"] + 50) / (scrollspeed/10)) and note["endTime"] > Globals.mapinfo.currenttime - ((Globals.options.options["screen_height"] + 50) / (scrollspeed/10)): # within screen bounds (roughly)
+        if note["time"] <= Globals.mapinfo.currenttime + ((Globals.options.options["screen_height"] + 50) / scrollspeed) and note["endTime"] > Globals.mapinfo.currenttime - ((Globals.options.options["screen_height"] + 50) / scrollspeed): # within screen bounds (roughly)
             
-            y = (Globals.mapinfo.currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * (scrollspeed/10)
-            yLN = (Globals.mapinfo.currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * (scrollspeed/10) + ((columnwidth/2) / (scrollspeed/10))
+            y = (Globals.mapinfo.currenttime - (note["time"] - 1)) / (note["time"] - (note["time"] - 1)) * scrollspeed
+            yLN = (Globals.mapinfo.currenttime - (note["endTime"] - 1)) / (note["time"] - (note["time"] - 1)) * scrollspeed + ((columnwidth/2) / scrollspeed)
             
             # too far down, past bottom of screen so delete and reset combo since it's a miss
             if yLN >= Globals.options.options["screen_height"]+50:
@@ -108,7 +108,7 @@ def Draw(window, map, keycount, dt):
                             if note in map: del map[map.index(note)] # so it looks better lol
 
             if note["type"] == "hold" and not drewheldln:
-                lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((columnwidth/1.5), (note["endTime"] - note["time"]) * (scrollspeed/10))).convert_alpha()
+                lnobj = pygame.transform.scale(lnbodyimgs[Globals.receptors[note["x"]].track], ((columnwidth/1.5), (note["endTime"] - note["time"]) * scrollspeed)).convert_alpha()
                 window.blit(lnobj, (Globals.receptors[note["x"]].x + (columnwidth/6), yLN))
                 window.blit(lntailimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x + (columnwidth/6), yLN))
                 window.blit(lnheadimgs[Globals.receptors[note["x"]].track], (Globals.receptors[note["x"]].x, y))
@@ -119,8 +119,8 @@ def Draw(window, map, keycount, dt):
         if not Globals.receptors[note[0]["x"]].held:
             if note[0]["type"] == "hold" and note[0]["newCombo"]:
 
-                y = (Globals.mapinfo.currenttime - (note[0]["time"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (scrollspeed/10)
-                yLN = (Globals.mapinfo.currenttime - (note[0]["endTime"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * (scrollspeed/10) + ((columnwidth/2) / (scrollspeed/10))
+                y = (Globals.mapinfo.currenttime - (note[0]["time"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * scrollspeed
+                yLN = (Globals.mapinfo.currenttime - (note[0]["endTime"] - 1)) / (note[0]["time"] - (note[0]["time"] - 1)) * scrollspeed + ((columnwidth/2) / scrollspeed)
                 
                 JudgementQueue.append([note[0], "hit", y, yLN, False]) 
                 Globals.receptors[note[0]["x"]].holdingln = False
@@ -158,7 +158,7 @@ def Draw(window, map, keycount, dt):
             if note[0]["type"] == "note": judge_y = note[2]
             elif note[0]["type"] == "hold" and note[4]: judge_y = note[2]
             elif note[0]["type"] == "hold" and not note[4]: judge_y = note[3] - (columnwidth/2)
-            else: print("judgement fallback!"); judge_y = note[2] # this should like never occur unless a parse bug got by
+            else: print("\033[91mjudgement fallback!"); judge_y = note[2] # this should like never occur unless a parse bug got by
 
             if (judge_y <= hitpos+bad_range) and (judge_y >= hitpos-bad_range):
                 Globals.stats.combo += 1

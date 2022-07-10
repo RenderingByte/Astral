@@ -28,6 +28,7 @@ def Display(window, clock, font):
     if not pygame.mixer.music.get_busy():
         
         # Load the image
+        img.initAlpha = 0
         img.fadeIn(1000)
         
         # Play a random song from map directory.

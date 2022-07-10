@@ -3,6 +3,7 @@
 # This file serves as a way to display the Song Select Menu.
 
 # Imports
+from math import inf
 import Globals
 import pygame
 import pygame_gui
@@ -19,7 +20,7 @@ def LoadMaps(amt):
 
     """
     
-    print("Counting beatmaps...")
+    print("\033[93mCounting beatmaps...")
 
     for filename in os.listdir("./maps/"):
         
@@ -32,7 +33,7 @@ def LoadMaps(amt):
             if not amt == None:
                 if len(Globals.loadedmaps.maparray) >= amt: break
     
-    print("Counted " + str(len(Globals.loadedmaps.maparray)) + " beatmaps.")
+    print("\033[93mCounted " + str(len(Globals.loadedmaps.maparray)) + " beatmaps.")
 
 def Display(window, clock, font):
     """
@@ -43,7 +44,6 @@ def Display(window, clock, font):
         :param font: The font object (declared in Astral.py)
 
     """
-    
     
     # First Load
     if not Globals.loadedmaps.loadedlist and len(Globals.loadedmaps.maparray) == 0:
@@ -59,7 +59,6 @@ def Display(window, clock, font):
         Globals.ui.searchbox.rebuild()
         
         Globals.ui.songselectlist = pygame_gui.elements.UISelectionList(pygame.Rect((Globals.options.options["screen_width"] - (Globals.options.options["screen_width"]/2.5), 0), (Globals.options.options["screen_width"]/2.5, Globals.options.options["screen_height"])), item_list=Globals.loadedmaps.maparray, manager=Globals.ui.manager)
-        
         Globals.loadedmaps.drewlist = True
         
     # Already Rendered
