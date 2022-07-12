@@ -75,13 +75,13 @@ def Display(window, clock, font):
         
         Globals.ui.audiooffsetlbl = pygame_gui.elements.UILabel(pygame.Rect((400, 450), (200, 50)), text="AUDIO OFFSET", manager=Globals.ui.manager)
         Globals.ui.audiooffsetselect = pygame_gui.elements.UITextEntryLine(pygame.Rect((400, 500), (75, 50)), manager=Globals.ui.manager)
-        Globals.ui.audiooffsetselect.allowed_characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        Globals.ui.audiooffsetselect.allowed_characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"]
         Globals.ui.audiooffsetselect.text = str(int(Globals.options.visualoptions["audiooffset"]))
         Globals.ui.audiooffsetselect.rebuild()
         
         Globals.ui.visualoffsetlbl = pygame_gui.elements.UILabel(pygame.Rect((400, 550), (200, 50)), text="VISUAL OFFSET", manager=Globals.ui.manager) 
         Globals.ui.visualoffsetselect = pygame_gui.elements.UITextEntryLine(pygame.Rect((400, 600), (75, 50)), manager=Globals.ui.manager)
-        Globals.ui.visualoffsetselect.allowed_characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        Globals.ui.visualoffsetselect.allowed_characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"]
         Globals.ui.visualoffsetselect.text = str(int(Globals.options.visualoptions["visualoffset"]))
         Globals.ui.visualoffsetselect.rebuild()
         

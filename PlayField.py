@@ -28,9 +28,16 @@ def LoadMap(path):
     
     if isMapValid:
         
-        Globals.sounds.musicsound = pygame.mixer.Sound("./maps/" + path + "/audio.mp3")
-        pygame.mixer.music.load("./maps/" + path + "/audio.mp3")
-        pygame.mixer.music.set_volume(Globals.options.options["musicvolume"])
+        try:
+            
+            Globals.sounds.musicsound = pygame.mixer.Sound("./maps/" + path + "/audio.mp3")
+            pygame.mixer.music.load("./maps/" + path + "/audio.mp3")
+            pygame.mixer.music.set_volume(Globals.options.options["musicvolume"])
+            
+        except:
+            
+            print("\033[91mmap failed to load!")
+            return None, None
         
         Globals.images.noteimgs.clear()
         Globals.images.lnheadimgs.clear()
@@ -73,7 +80,7 @@ def LoadMap(path):
         
         # Calculate the offset of the map.
         audio = 0
-        visual = 0
+        visual = (timingpoints[0]["time"] - (60000/timingpoints[0]["bpm"]/timingpoints[0]["timingSignature"]))
 
         return audio, visual
     
@@ -107,8 +114,7 @@ def Play(window, font, clock):
             current_tp = Globals.mapinfo.playingtps[i-1]
             if i == 0: first_tp = True
                 
-    if not first_tp and (tp_to_apply != {} and current_tp != {}): Globals.mapinfo.currenttime = Globals.mapinfo.currenttime - (60/current_tp["bpm"]/current_tp["timingSignature"]) + (60/tp_to_apply["bpm"]/tp_to_apply["timingSignature"])
-    if first_tp and Globals.mapinfo.currenttime == 0: Globals.mapinfo.currenttime = Globals.mapinfo.currenttime + (60/tp_to_apply["bpm"]/tp_to_apply["timingSignature"])
+    if not first_tp and (tp_to_apply != {} and current_tp != {}): Globals.mapinfo.currenttime = Globals.mapinfo.currenttime - (current_tp["time"] - (60000/current_tp["bpm"]/current_tp[0]["timingSignature"])) + (tp_to_apply["time"] - (60000/tp_to_apply[0]["bpm"]/tp_to_apply[0]["timingSignature"]))
     
     # Update the current time with delta.
     # This also adds frame indepedency.
